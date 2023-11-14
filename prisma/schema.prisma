@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./inventory.db"
+}
+
+model Warehouse {
+  id          Int           @id @default(autoincrement())
+  name        String
+  location    String
+  StockStatus StockStatus[]
+  Operation   Operation[]
+}
+
+model StockStatus {
+  id          Int       @id @default(autoincrement())
+  quantity    Int
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  item        Item      @relation(fields: [itemId], references: [id])
+  warehouseId Int
+  itemId      Int
+}
+
+model Item {
+  id          Int           @id @default(autoincrement())
+  name        String
+  price       Float
+  createdAt   DateTime      @default(now())
+  StockStatus StockStatus[]
+  Operation   Operation[]
+}
+
+model Operation {
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now())
+  quantity        Int
+  item            Item          @relation(fields: [itemId], references: [id])
+  operation       OperationType @relation(fields: [operationTypeId], references: [id])
+  warehouse       Warehouse     @relation(fields: [warehouseId], references: [id])
+  itemId          Int
+  operationTypeId Int
+  warehouseId     Int
+}
+
+model OperationType {
+  id        Int         @id @default(autoincrement())
+  name      String
+  Operation Operation[]
+}
