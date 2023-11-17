@@ -4,6 +4,11 @@ from Database import DataBase
 class Warehouse (DataBase):
     # dodaj nowy magazyn
     def addWarehouse(self, warehouse_name, warehouse_location):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(warehouse_name, str) or not isinstance(warehouse_location, str):
+            print("incorrectly entered data")
+            return False
+        
         # wyszukaj czy taki magazyn istnieje
         self.cursor.execute("""
                             SELECT * FROM Warehouse WHERE name=:n AND location=:l
@@ -22,6 +27,11 @@ class Warehouse (DataBase):
 
     # edycja nazwy magazynu o nazwie x
     def editName(self, old_name, new_name):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(old_name, str) or not isinstance(new_name, str):
+            print("incorrectly entered data")
+            return False
+        
         # wyszukiwanie czy taki magazyn istnieje
         self.cursor.execute("""
                             SELECT * FROM Warehouse WHERE name=:n
@@ -40,6 +50,11 @@ class Warehouse (DataBase):
 
     # edycja lokacji magazynu o nazwie x
     def editLocation(self, warehouse_name, new_location):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(warehouse_name, str) or not isinstance(new_location, str):
+            print("incorrectly entered data")
+            return False
+        
         # wyszukiwanie czy taki magazyn istnieje
         self.cursor.execute("""
                             SELECT * FROM Warehouse WHERE name=:n

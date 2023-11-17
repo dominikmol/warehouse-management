@@ -4,6 +4,11 @@ from Database import DataBase
 class Operation (DataBase):
     # add new items to the Warehouse
     def addItemToWarehouse(self, item_name, warehouse_name, quantity):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(item_name, str) or not isinstance(warehouse_name, str) or not isinstance(quantity, int):
+            print("incorrectly entered data")
+            return False
+
         # sprawdz czy istnieje podany przedmiot, magazyn oraz czy typ operacji istnieje
         self.cursor.execute("""
                             SELECT Item.id, Warehouse.id, OperationType.id
@@ -42,6 +47,11 @@ class Operation (DataBase):
 
     # usun przedmiot z magazynu
     def deleteItemFromWarehouse(self, item_name, warehouse_name, quantity):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(item_name, str) or not isinstance(warehouse_name, str) or not isinstance(quantity, int):
+            print("incorrectly entered data")
+            return False
+
         # sprawdz czy wskazane rzeczy istnieja
         self.cursor.execute("""
                             SELECT Item.id, Warehouse.id, OperationType.id
@@ -74,6 +84,14 @@ class Operation (DataBase):
 
     # przenies przedmioty pomiedzy magazynami
     def moveItems(self, item_name, from_warehouse, to_warehouse, quantity):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(item_name, str) or not isinstance(quantity, int):
+            print("incorrectly entered data")
+            return False
+        if not isinstance(from_warehouse, str) or not isinstance(to_warehouse, str):
+            print("incorrectly entered data")
+            return False
+        
         # sprawdz czy wskazane magazyny istnieja
         self.cursor.execute("""
                             select id FROM Warehouse WHERE name=:from_warehouse OR name=:to_warehouse

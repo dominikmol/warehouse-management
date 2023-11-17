@@ -4,6 +4,11 @@ from Database import DataBase
 class Item (DataBase):
     # dodaj nowy przedmiot do magazynu
     def addItem(self, item_name, price):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(item_name, str) or not isinstance(price, (int, float)):
+            print("incorrectly entered data")
+            return False
+    
         self.cursor.execute("""
                             SELECT name FROM Item WHERE name=:n
                             """, {'n': item_name})
@@ -17,6 +22,11 @@ class Item (DataBase):
 
     # edytuj nazwe przedmiotu o nazweie x
     def editName(self, old_name, new_name):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(old_name, str) or not isinstance(new_name, str):
+            print("incorrectly entered data")
+            return False
+        
         self.cursor.execute(
             "SELECT id FROM Item WHERE name=:n", {'n': old_name})
 
@@ -29,6 +39,11 @@ class Item (DataBase):
 
     # edytuj cene przedmiotu o nazweie x
     def editPrice(self, item_name, new_price):
+        # sprawdzanie czy wartości zostały poprawnie wprowadzone
+        if not isinstance(item_name, str) or not isinstance(new_price, (int, float)):
+            print("incorrectly entered data")
+            return False
+
         self.cursor.execute(
             "SELECT id FROM Item WHERE name=:n", {'n': item_name})
 
@@ -42,7 +57,7 @@ class Item (DataBase):
 
 def main():
     inv = Item()
-    inv.addItem('myszka Razer', 99.99)
+    inv.addItem(55, 99.99)
 
 
 main()
